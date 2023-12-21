@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Kotlin on Iverson&#39;s blog</title>
+    <link>http://answerkobe.github.io/tags/kotlin/</link>
+    <description>Recent content in Kotlin on Iverson&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>cn-zh</language>
+    <lastBuildDate>Fri, 08 Jul 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://answerkobe.github.io/tags/kotlin/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Jetpack Compose 探索</title>
+      <link>http://answerkobe.github.io/posts/jetpack-compose-explore/</link>
+      <pubDate>Fri, 08 Jul 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://answerkobe.github.io/posts/jetpack-compose-explore/</guid>
+      <description>Why compose Compose UI 的编写只需要 Kotlin，在遵循 Android 应用架构时，这样更有利于聚合 UI Elements 的代码，不需要去区分 Kotlin 代码和 xml 布局文件，在我看来这种方式更加容易采用 Android 架构指南去控制项目架构。
+但从另一方面来讲，Compose 这种嵌套的 UI 组合方式会加深代码层次，因此开发过程中需要对 UI 上各个元素做更细的区分，以增加代码的可读性。另外如果状态使用没有处理好，也会对 Compose 的重组性能带来影响。
+完善的声明式 UI Android View 系统设计的时候是遵循 OOP 的，虽然有 XML 可以帮我们减少下面这种命令式代码的使用，但这种声明式构建 + 命令式执行的缺点还是很明显，因为需要一个加载器把布局转化到业务逻辑代码中。
+// 命令式 val parent = ViewGroup(); val node = View(); parent.addView(node); 如果按照理想的声明式 UI 编写方式去改造传统 View 系统，那呈现出的代码可能会包括下面两个特点：
+节点的构建不应该有返回值 节点的连接不依赖于 API &amp;lt;LinearLayout&amp;gt; &amp;lt;TextView&amp;gt;Hello World&amp;lt;/TextView&amp;gt; &amp;lt;MaterialButton android:onCLick=&amp;#34;syaHi()&amp;#34;&amp;gt;hi&amp;lt;/MaterialButton&amp;gt; &amp;lt;/LinearLayout&amp;gt; 将上面的布局代码转换为 Java/Kotlin 理想的声明式代码
+LinearLayout { TextView(&amp;#34;Hello World&amp;#34;) MaterialButton(&amp;#34;Hi&amp;#34;) { syaHi() } } Compose 利用 Kotlin DSL 构建声明式 UI，一个 @Composable 相当于一个节点，在内部也可以调用其他 @Composable 函数构建子节点。</description>
+    </item>
+    
+    <item>
+      <title>探索 Java &amp; Kotlin 泛型</title>
+      <link>http://answerkobe.github.io/posts/explore-the-kotlin-generics/</link>
+      <pubDate>Sat, 06 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>http://answerkobe.github.io/posts/explore-the-kotlin-generics/</guid>
+      <description>Kotlin 泛型基础 泛型可以让我们在代码中声明类型参数，Kotlin 泛型最基本的使用和 Java 一样，可以声明在类上和函数上，用法也都差不多。
+声明在函数上时，可将类型参数作为参数或返回值的类型，该函数为泛型函数 声明在类上时，可以用在任意一处类型声明处，该类为泛型类 class GenericsDemo&amp;lt;T&amp;gt;(t: T) { val value = t } fun &amp;lt;T&amp;gt; invoke(t: T) : T { return t } 我们可以在声明了类型参数的类中，声明一个泛型方法，但如果内部方法所声明的类型参数名称和类上所声明的相同，那么会覆盖类上所声明的类型参数。下面的代码不会报错，并会打印 Hello 字符串。
+class GenericsDemo&amp;lt;T&amp;gt;() { fun &amp;lt;T&amp;gt; invoke(t: T) : T { return t } } val demo = GenericsDemo&amp;lt;Int&amp;gt;() println(demo.invoke(&amp;#34;Hello&amp;#34;)) 此外，我们知道在类中可通过重载来定义同名方法，但这在泛型中并不起作用，如果类中拥有以下两个方法，那么将会报错。
+class GenericsDemo&amp;lt;T&amp;gt;() { // 泛型来自类 fun invoke(t: T) : T { return t } // 泛型来自方法本身 fun &amp;lt;S&amp;gt; invoke(s: S) : S { return s } } 上诉代码报错原因是因为两个方法拥有相同的 signature，也就是在 JVM 看来这两个方法的方法名和参数都是一样的，报错信息如下：</description>
+    </item>
+    
+  </channel>
+</rss>

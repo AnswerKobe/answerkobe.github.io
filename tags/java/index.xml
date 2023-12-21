@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Java on Iverson&#39;s blog</title>
+    <link>http://answerkobe.github.io/tags/java/</link>
+    <description>Recent content in Java on Iverson&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>cn-zh</language>
+    <lastBuildDate>Sat, 06 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="http://answerkobe.github.io/tags/java/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>探索 Java &amp; Kotlin 泛型</title>
+      <link>http://answerkobe.github.io/posts/explore-the-kotlin-generics/</link>
+      <pubDate>Sat, 06 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>http://answerkobe.github.io/posts/explore-the-kotlin-generics/</guid>
+      <description>Kotlin 泛型基础 泛型可以让我们在代码中声明类型参数，Kotlin 泛型最基本的使用和 Java 一样，可以声明在类上和函数上，用法也都差不多。
+声明在函数上时，可将类型参数作为参数或返回值的类型，该函数为泛型函数 声明在类上时，可以用在任意一处类型声明处，该类为泛型类 class GenericsDemo&amp;lt;T&amp;gt;(t: T) { val value = t } fun &amp;lt;T&amp;gt; invoke(t: T) : T { return t } 我们可以在声明了类型参数的类中，声明一个泛型方法，但如果内部方法所声明的类型参数名称和类上所声明的相同，那么会覆盖类上所声明的类型参数。下面的代码不会报错，并会打印 Hello 字符串。
+class GenericsDemo&amp;lt;T&amp;gt;() { fun &amp;lt;T&amp;gt; invoke(t: T) : T { return t } } val demo = GenericsDemo&amp;lt;Int&amp;gt;() println(demo.invoke(&amp;#34;Hello&amp;#34;)) 此外，我们知道在类中可通过重载来定义同名方法，但这在泛型中并不起作用，如果类中拥有以下两个方法，那么将会报错。
+class GenericsDemo&amp;lt;T&amp;gt;() { // 泛型来自类 fun invoke(t: T) : T { return t } // 泛型来自方法本身 fun &amp;lt;S&amp;gt; invoke(s: S) : S { return s } } 上诉代码报错原因是因为两个方法拥有相同的 signature，也就是在 JVM 看来这两个方法的方法名和参数都是一样的，报错信息如下：</description>
+    </item>
+    
+    <item>
+      <title>从源码角度分析 ThreadLocal 的使用</title>
+      <link>http://answerkobe.github.io/posts/threadlocal-usage-and-source/readme/</link>
+      <pubDate>Fri, 03 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>http://answerkobe.github.io/posts/threadlocal-usage-and-source/readme/</guid>
+      <description>Java 中的创建的对象存放在堆内存，这一块空间是线程共享的，通常我们定义的变量所持有的是对象的引用存，即每个线程访问该变量时都将获取到堆内存中的同一个对象，因此在使用多线程的时候如果需要操作同一资源，那么需要思考线程安全的问题。
+// ThreadDemo.java static int v = 0; static void autoAdd(){ for (int i = 0; i &amp;lt; 10000; i++) { v++; } } public static void main(String[] args) throws Exception { new Thread(ThreadLocalDemo::autoAdd).start(); autoAdd(); Thread.sleep(1000); System.out.println(v); } 上面代码变量 v 的打印结果可能会小于 20000，随着 v 自增次数的增加，例如循环次数增加到 100000，这个问题将会更加明显。
+要解决线程安全的问题可以用同步或加锁的方式来处理，但有时候我们希望的该变量对于每个线程来说是独享的，也就是对于同一个变量，它的值对于不同线程都应该有一份单独的副本。
+局部变量对于 Java 开发者而言应该是再熟悉不过的了。不同线程操作一个共享的变量时，我们可以创建一个新的局部变量来复制该变量的值，再进行操作，这样就不会污染到该共享变量的值。但对于复杂的对象而言，复制起来比较麻烦，而且这种方式也不能将操作完的值写回共享的变量。
+虽然我们有办法解决这些问题，但没必要，因为 Java 提供了 ThreadLocal 来帮助我们创建一个线程局部的变量。
+ThreadLocal 的使用 ThreadLocal 的使用利用了泛型，我们可以将期望的值放到 ThreadLocal 中，使用 ThreadLocal 时通过指定泛型类型来决定该 ThreadLocal 存放的数据的类型，这是集合类一样。
+ThreadLocal&amp;lt;Integer&amp;gt; threadLocal = new ThreadLocal&amp;lt;&amp;gt;(); System.</description>
+    </item>
+    
+    <item>
+      <title>基于 JDK 1.8 分析 HashMap 的底层原理</title>
+      <link>http://answerkobe.github.io/posts/the-principle-of-hashmap/</link>
+      <pubDate>Mon, 31 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>http://answerkobe.github.io/posts/the-principle-of-hashmap/</guid>
+      <description>Java 的 HashMap 可以说是用的最多、问的最多的一个 Map Collection 了。HashMap 是非同步的，即线程不安全。HashMap 允许存放的 key 为 null，但并不保证映射的顺序，也不保证这个顺序随时间保持不变。
+本文对 HashMap 的代码分析基于 JDK 1.8
+public class HashMap&amp;lt;K,V&amp;gt; extends AbstractMap&amp;lt;K,V&amp;gt; implements Map&amp;lt;K,V&amp;gt;, Cloneable, Serializable 我们可以先从 HashMap 底层使用的数据结构了解 HashMap。
+哈希表 + 链表 / 红黑树 static class Node&amp;lt;K,V&amp;gt; implements Map.Entry&amp;lt;K,V&amp;gt; { final int hash; final K key; V value; Node&amp;lt;K,V&amp;gt; next; // ... } /** * The table, initialized on first use, and resized as * necessary. When allocated, length is always a power of two.</description>
+    </item>
+    
+    <item>
+      <title>被遗弃的 Vector 和 Stack</title>
+      <link>http://answerkobe.github.io/posts/vector-and-stack/</link>
+      <pubDate>Tue, 27 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>http://answerkobe.github.io/posts/vector-and-stack/</guid>
+      <description>在 Java Collections Framework 中有两个被遗弃的 List 实现类 —— Vector 和 Stack。
+Vector 通过实现 AbstractList&amp;lt;E&amp;gt; 接口来成为 Java Collections Framework List 接口的一员，而 Stack 直接继承于 Vector。
+public class Vector&amp;lt;E&amp;gt; extends AbstractList&amp;lt;E&amp;gt; implements List&amp;lt;E&amp;gt;, RandomAccess, Cloneable, java.io.Serializable public class Stack&amp;lt;E&amp;gt; extends Vector&amp;lt;E&amp;gt; 与 ArrayList 类似的 Vector 如果希望了解 ArrayList 的底层结构可阅读另一篇文章 ArrayList 与 LinkedList 底层结构
+与 ArrayList 一样，Vector 的底层结构也是 Object 数组 elementData，通过 elementCount 来表示 Vector 存储的元素个数，但与 ArrayList 不同的是，ArrayList 创建时不指定容器个数时，elementData 是一个长度为 0 的数组，只有在第一次添加元素的时候才会创建一个长度为 10 的数组，而 Vector 则是在构造方法中调用另一个构造方法直接为 elementData 创建一个长度为 10 的数组。</description>
+    </item>
+    
+    <item>
+      <title>ArrayList 与 LinkedList 底层结构</title>
+      <link>http://answerkobe.github.io/posts/arraylist-and-linkedlist-principle/</link>
+      <pubDate>Sat, 24 Apr 2021 00:00:00 +0000</pubDate>
+      
+      <guid>http://answerkobe.github.io/posts/arraylist-and-linkedlist-principle/</guid>
+      <description>在 Java 中，数组可用来存储相同类型的多个数据，但由于长度不可变，在某些场景下使用比较局限。当我们希望使用类似数组的结构来存储未知个数的元素时，可以使用 ArrayList&amp;lt;E&amp;gt; 和 LinkedList&amp;lt;E&amp;gt;，它们都是 Java Collection Framework 的成员，相比普通的数组，它们提供了更多的操作来方便我们开发。由于底层使用的数据结构不同，它们也经常被拿来做比较。
+继承关系 ArrayList 属于 List&amp;lt;E&amp;gt; 接口中的一个 可变长数组 实现，直接 extends AbstractList&amp;lt;E&amp;gt; abstract 类。其继承关系如下：
+public class ArrayList&amp;lt;E&amp;gt; extends AbstractList&amp;lt;E&amp;gt; implements List&amp;lt;E&amp;gt;, RandomAccess, Cloneable, java.io.Serializable LinkedList 直接 extends AbstractSequentialList&amp;lt;E&amp;gt; abstract 类，间接 extends AbstractList&amp;lt;E&amp;gt;，由于 LinkedList 也实现了 Deque&amp;lt;E&amp;gt; 接口，所以它属于 List&amp;lt;E&amp;gt; 和 Queue&amp;lt;E&amp;gt; 接口的实现。
+public class LinkedList&amp;lt;E&amp;gt; extends AbstractSequentialList&amp;lt;E&amp;gt; implements List&amp;lt;E&amp;gt;, Deque&amp;lt;E&amp;gt;, Cloneable, java.io.Serializable ArrayList 底层结构 对于 ArrayList，Java API 对它的第一句描述为 “Resizable-array implementation of the List interface”。其底层存储元素的结构为 Object 数组。</description>
+    </item>
+    
+    <item>
+      <title>如何阅读 Java 字节码（Byte Code）</title>
+      <link>http://answerkobe.github.io/posts/how-to-read-java-byte-code/</link>
+      <pubDate>Sun, 07 Mar 2021 00:00:00 +0000</pubDate>
+      
+      <guid>http://answerkobe.github.io/posts/how-to-read-java-byte-code/</guid>
+      <description>字节码（Byte Code） 学习 Java 的都知道，我们所编写的 .java 代码文件通过编译将会生成 .class 文件，最初的方式就是通过 JDK 的 javac 指令来编译，再通过 java 命令执行 main 方法所在的类，从而执行我们的 Java 程序。而在这中间所生成的 .class 文件中的内容，就是 JVM 可以处理运行的字节码（Byte Code），它由 JVM 解释为对应系统可运行的机器指令，这也是我们的 Java 程序能够做到一处编译处处执行的原理。
+对于 Java 开发人员来说，平时需要阅读 Byte Code 的场景比较少，但和阅读框架源码能够了解到框架的设计思路一样，阅读 Java Byte Code 也有利于我们理解 Java 一些深层的东西，提高我们解决问题的能力。能够阅读 Byte Code 也有利于我们去理解 Kotlin 或其它运行在 JVM 上的语言，是如何扩展 Java 所没有的特性或语法糖。
+字节码文件结构 public class Hello { public static void main(String[] args) { int a = 1; int b = 1; int c = add(a, b); System.</description>
+    </item>
+    
+  </channel>
+</rss>

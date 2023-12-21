@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Flutter on Iverson&#39;s blog</title>
+    <link>http://answerkobe.github.io/tags/flutter/</link>
+    <description>Recent content in Flutter on Iverson&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>cn-zh</language>
+    <lastBuildDate>Tue, 11 Jan 2022 00:00:00 +0000</lastBuildDate><atom:link href="http://answerkobe.github.io/tags/flutter/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Flutter 绘制流程分析与代码实践</title>
+      <link>http://answerkobe.github.io/posts/analysis-flutter-paint-process/</link>
+      <pubDate>Tue, 11 Jan 2022 00:00:00 +0000</pubDate>
+      
+      <guid>http://answerkobe.github.io/posts/analysis-flutter-paint-process/</guid>
+      <description>Render Tree 的创建过程 RenderObject 的类型 我们知道 Element 主要分为负责渲染的 RenderObjectElement 和负责组合的 ComponentElement 两大类，而创建 RenderObject 节点的是前者 mount() 方法中调用的 RenderObjectWidget.createRenderObject() 方法。
+该方法是一个抽象方法，需要子类实现，对于不同的布局的 Widget 创建的 RenderObject 类型也不一样，在 Render Tree 中最主要的有两种 RenderObject：
+首先是在 RenderObject 注释说明中大量提到了一个类 RenderBox，它是大部分的 RenderObjectWidget 所对应的 RenderObject 的抽象类 /// A render object in a 2D Cartesian coordinate system. /// 一个在 2D 坐标系中的渲染对象 abstract class RenderBox extends RenderObject 以及 Render Tree 的根节点 RenderView /// The root of the render tree. /// Render Tree 的根节点，处理渲染管道的引导和渲染树的输出 /// 它有一个填充整个输出表面的 RenderBox 类型的唯一子节点 class RenderView extends RenderObject with RenderObjectWithChildMixin&amp;lt;RenderBox&amp;gt; 其他的类型的 RenderObject 基本是为了特定布局（如滑动、列表）的实现，但大部分都直接或间接集成自 RenderBox。</description>
+    </item>
+    
+  </channel>
+</rss>

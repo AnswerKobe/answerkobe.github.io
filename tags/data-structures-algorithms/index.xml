@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>Data Structures &amp; Algorithms on Iverson&#39;s blog</title>
+    <link>http://answerkobe.github.io/tags/data-structures-algorithms/</link>
+    <description>Recent content in Data Structures &amp; Algorithms on Iverson&#39;s blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>cn-zh</language>
+    <lastBuildDate>Sun, 02 May 2021 00:00:00 +0000</lastBuildDate><atom:link href="http://answerkobe.github.io/tags/data-structures-algorithms/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>基于 2-3-4 树理解红黑树的性质与操作</title>
+      <link>http://answerkobe.github.io/posts/red-black-tree/</link>
+      <pubDate>Sun, 02 May 2021 00:00:00 +0000</pubDate>
+      
+      <guid>http://answerkobe.github.io/posts/red-black-tree/</guid>
+      <description>红黑树（Red-Black Tree）是一种自平衡的二叉查找树（Binary Search Tree, BST），由于基于二叉查找树（并不是基于 AVL 树），因此它是有序的。它出现于 1978 年 Leo J. Guibas 和 Robert Sedgewick 的一篇论文。
+红黑树和 AVL 树很像，都是为了让二叉查找树能保持平衡，不会退化成链表，让查找时间复杂度能够稳定在 O(log(n))。
+相比 AVL 树，红黑树牺牲了部分平衡性来，来减少插入 / 删除操作的旋转次数。因此插入性能红黑树会比 AVL 树快，但由于平衡性不如 AVL 树，当拥有相同数量的节点时，树的层数可能会比 AVL 树高，查询效率也不如 AVL 树。
+由于红黑树的结构比较复杂，因此它也比较难理解，但我们可以借助 2-3-4 树来理解它。
+Perfect Balance 的 2-3-4 树 介绍 2-3-4 树的资料可能比较少，由于 2-3-4 树的图画起来比较麻烦，为了偷懒本文选取了 Sedgewick 介绍 LLRB Tree（左倾红黑树） 的 PPT 中的一些图来做说明，该 PPT 链接放在本文末尾参考部分。
+2-3-4 树也是一颗自平衡的树，但它的节点比较特殊，可以分为以下 3 种节点：
+2-node：普通的树节点，可存放一个数据，最多有两个子节点 3-node：能存放两个数据的节点，最多能有三个子节点 4-node：能存放三个数据的节点，最多能有四个子节点 它们的结构图示如下（该图来自 Sedgewick 的 PPT 第 12 页）：
+该图中对子节点的连接位置进行描述的只有 3 节点，不过 4 节点与子节点连接方式其实也是一样的，子节点的连接决定于子节点存放的数据的大小范围和父节点的存放的数据的大小。</description>
+    </item>
+    
+  </channel>
+</rss>
